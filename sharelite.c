@@ -66,7 +66,7 @@ static struct sembuf sh_unlock[1] = {
 /* returns 0  on success -- requested operation performed   *
  * returns -1 on error                                      *
  * returns 1 if LOCK_NB specified and operation would block */
-int _lock(Share *share, int flags) {
+int sharelite_lock(Share *share, int flags) {
 
   if (!flags) /* try to obtain exclusive lock by default */
     flags = LOCK_EX;
@@ -135,7 +135,7 @@ int _lock(Share *share, int flags) {
   return 0;
 }
 
-int _unlock(Share *share) {
+int sharelite_unlock(Share *share) {
   if (share->lock & LOCK_EX) {
     if (RM_EX_LOCK(share->semid) < 0) 
       return -1;
@@ -428,7 +428,7 @@ again:
   return share;
 }
 
-unsigned int _version(Share *share) {
+unsigned int sharelite_version(Share *share) {
   return share->head->shmaddr->version;
 }
 
@@ -465,7 +465,7 @@ int destroy_share (Share *share, int rmid) {
   return 0;
 }
 
-int _num_segments(Share* share) {
+int sharelite_num_segments(Share* share) {
   int    count = 0;
   int    shmid;
   Header *shmaddr;

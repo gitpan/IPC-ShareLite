@@ -59,6 +59,6 @@ typedef struct {
 int   write_share(Share *share, char *data, int length);
 Share *new_share(key_t key, int segment_size, int flags);
 int   read_share(Share *share, char **data);
-int   _lock(Share *share, int flags); 
-int   _unlock(Share *share);
+int   sharelite_lock(Share *share, int flags); 
+int   sharelite_unlock(Share *share);
 int   destroy_share (Share *share, int rmid);

@@ -313,7 +313,7 @@ read_share(share)
     if (length >= 0) {
       sv_usepvn((SV*)ST(0), data, length);
     } else {
-      sv_setsv(ST(0), &sv_undef);
+      sv_setsv(ST(0), &PL_sv_undef);
     }
  
 int
@@ -322,18 +322,18 @@ destroy_share(share, rmid)
 	int		rmid
 
 int
-_lock(share, flags)
+sharelite_lock(share, flags)
 	Share*		share
 	int		flags
 
 int
-_unlock(share)
+sharelite_unlock(share)
 	Share*		share
 
 unsigned int
-_version(share)
+sharelite_version(share)
 	Share*		share
 
 int
-_num_segments(share)
+sharelite_num_segments(share)
 	Share*		share

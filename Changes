@@ -1,5 +1,15 @@
 Revision history for Perl extension IPC::ShareLite.
 
+0.07 Fri Apr 14 02:56:47 PDT 2000
+        - changed sv_undef to PL_sv_undef; should now compile
+          under 5.006.  Thanks to Frey Kuo <frey@engineer.com> and
+          Leon Brocard <leon@astray.com> 
+        - improved performance of _rearrange_args() thanks
+          to patch from Sam Tregar <sam@tregar.com>
+        - renamed all _func names to sharelite_func due to conflict
+          with IRIX libraries. Thanks to John Clutterbuck
+          <john.clutterbuck@sbs.siemens.co.uk>
+
 0.06 Tue Jan 18 04:33:57 PST 2000
         - Eliminated some warnings thanks to Jim Mosier <jim.mosier@usa.net>
         - Fix DESTROY bug thanks to Sam Tregar <sam@tregar.com>

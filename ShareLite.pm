@@ -23,42 +23,41 @@ require AutoLoader;
                );
 Exporter::export_ok_tags('all', 'lock', 'flock');                
 	
-$VERSION = '0.06';
+$VERSION = '0.07';
 
 sub new {
   my $class = shift;
   my $self = {};
-  my(%args);
 
   $class = ref $class || $class;
   bless $self, $class;
 
-  %args = $class->_rearrange_args([qw( KEY CREATE DESTROY EXCLUSIVE MODE 
-                                       FLAGS SIZE GLUE )], \@_);
+  my $args = $class->_rearrange_args([qw( key create destroy exclusive mode 
+                                       flags size glue )], \@_);
 
-  $self->_initialize(%args) or return undef;
+  $self->_initialize($args) or return undef;
 
   $self;
 }
 
 sub _initialize {
   my $self = shift;
-  my(%args) = @_;
+  my $args = shift;
 
   foreach(qw( create exclusive destroy )) {
-    $args{$_} = 0 if lc $args{$_} eq 'no';
+    $args->{$_} = 0 if lc $args->{$_} eq 'no';
   }
 
-  $self->{key} = $args{key} || $args{glue} || IPC_PRIVATE;
+  $self->{key} = $args->{key} || $args->{glue} || IPC_PRIVATE;
   $self->{key} = unpack('i', pack('A4', $self->{key}))
     unless ($self->{key} =~ /^\d+$/);
 
-  $self->{create}      = ($args{create}    ? IPC_CREAT          : 0);
-  $self->{exclusive}   = ($args{exclusive} ? IPC_EXCL|IPC_CREAT : 0);
-  $self->{'destroy'}   = ($args{'destroy'} ? 1                  : 0);
-  $self->{flags}       = $args{flags} || 0;
-  $self->{mode}        = $args{mode}  || 0666 unless $args{flags};
-  $self->{size}        = $args{size}  || 0;
+  $self->{create}      = ($args->{create}    ? IPC_CREAT          : 0);
+  $self->{exclusive}   = ($args->{exclusive} ? IPC_EXCL|IPC_CREAT : 0);
+  $self->{'destroy'}   = ($args->{'destroy'} ? 1                  : 0);
+  $self->{flags}       = $args->{flags} || 0;
+  $self->{mode}        = $args->{mode}  || 0666 unless $args->{flags};
+  $self->{size}        = $args->{size}  || 0;
 
   $self->{flags} = $self->{flags}|$self->{exclusive}|$self->{create}|
                    $self->{mode};
@@ -70,30 +69,26 @@ sub _initialize {
 }
 
 sub _rearrange_args {
-  my $self = shift;
-  my(@names)   = @{ shift() };
-  my(@params)  = @{ shift() };
-  my(%hash, %names);
+  my ($self, $names, $params) = @_;
+  my (%hash, %names);
 
-  return %hash unless (@params);
+  return \%hash unless (@$params);
 
-  unless ($params[0] =~ /^-/) {
-    while(@params) {
-      croak "unexpected number of parameters" unless (@names);
-      $hash{ lc shift @names } = shift @params;
-    }
-    return %hash;
+  unless ($params->[0] =~ /^-/) {
+    croak "unexpected number of parameters" unless (@$names == @$params);
+    $hash{ @$names } = @$params;
+    return \%hash;
   }
 
-  %names = map { lc $_ => 1 } @names;
+  %names = map { $_ => 1 } @$names;
 
-  while(@params) {
-    my $param = lc substr(shift @params, 1);
+  while(@$params) {
+    my $param = lc substr(shift @$params, 1);
     exists $names{ $param } or croak "unexpected parameter '-$param'";
-    $hash{ $param } = shift @params;
+    $hash{ $param } = shift @$params;
   }                                  
 
-  %hash;
+  return \%hash;
 }      
 
 sub store {
@@ -116,7 +111,7 @@ sub fetch {
 sub lock {
   my $self = shift;
 
-  my $response = _lock($self->{share}, shift());
+  my $response = sharelite_lock($self->{share}, shift());
   return undef if ($response == -1);
   return 0     if ($response == 1); # operation failed due to LOCK_NB 
   1;
@@ -125,7 +120,7 @@ sub lock {
 sub unlock {
   my $self = shift;
 
-  return undef if (_unlock($self->{share}) < 0);
+  return undef if (sharelite_unlock($self->{share}) < 0);
   1;
 }
 
@@ -133,7 +128,7 @@ sub unlock {
 sub shlock   { shift()->lock(@_) }
 sub shunlock { shift()->unlock(@_) }
 
-sub version { _version( shift()->{share} ) }
+sub version { sharelite_version( shift()->{share} ) }
 
 sub key       { shift()->{key} }
 sub create    { shift()->{create} }
@@ -145,7 +140,7 @@ sub size      { shift()->{side} }
 sub num_segments {
   my $self = shift;
 
-  my $count = _num_segments( $self->{share} );
+  my $count = sharelite_num_segments( $self->{share} );
   return undef if $count < 0;
   $count;
 }
