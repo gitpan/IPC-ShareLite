@@ -23,7 +23,7 @@ require AutoLoader;
                );
 Exporter::export_ok_tags('all', 'lock', 'flock');                
 	
-$VERSION = '0.08';
+$VERSION = '0.09';
 
 sub new {
   my $class = shift;
@@ -135,7 +135,7 @@ sub create    { shift()->{create} }
 sub exclusive { shift()->{exclusive} }
 sub flags     { shift()->{flags} }
 sub mode      { shift()->{mode} }
-sub size      { shift()->{side} }
+sub size      { shift()->{size} }
 
 sub num_segments {
   my $self = shift;
@@ -437,7 +437,7 @@ data format used by IPC::Shareable.
 
 =head1 AUTHOR
 
-Copyright (C) 1998, Maurice Aubrey E<lt>maurice@hevanet.comE<gt>. 
+Copyright 1998-2002, Maurice Aubrey E<lt>maurice@hevanet.comE<gt>. 
 All rights reserved.
 
 This module is free software; you may redistribute it and/or

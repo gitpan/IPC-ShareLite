@@ -1,5 +1,8 @@
 Revision history for Perl extension IPC::ShareLite.
 
+0.09 Wed Dec  4 13:51:05 PST 2002
+        - fixed bug in size() thanks to Craig Manley <c.manley@skybound.nl>
+
 0.08 Sat Jul 15 03:00:16 PDT 2000
         - added define for PL_sv_undef for older perls
           thanks to Christian Gilmore <Christian_Gilmore@tivoli.com>
