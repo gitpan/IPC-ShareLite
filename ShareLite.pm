@@ -18,12 +18,12 @@ require AutoLoader;
                  LOCK_NB);
 %EXPORT_TAGS = ( all    => [qw( IPC_CREAT IPC_EXCL IPC_RMID IPC_PRIVATE
                                 LOCK_EX LOCK_SH LOCK_UN LOCK_NB )],
-                 lock   => [qw( LOCK_EX LOCK_SH LOCK_UN LOCK_NB )],
-                 flock  => [qw( LOCK_EX LOCK_SH LOCK_UN LOCK_NB )],
+                 lock    => [qw( LOCK_EX LOCK_SH LOCK_UN LOCK_NB )],
+                 'flock' => [qw( LOCK_EX LOCK_SH LOCK_UN LOCK_NB )],
                );
 Exporter::export_ok_tags('all', 'lock', 'flock');                
 	
-$VERSION = '0.05';
+$VERSION = '0.06';
 
 sub new {
   my $class = shift;
@@ -55,7 +55,7 @@ sub _initialize {
 
   $self->{create}      = ($args{create}    ? IPC_CREAT          : 0);
   $self->{exclusive}   = ($args{exclusive} ? IPC_EXCL|IPC_CREAT : 0);
-  $self->{destroy}     = ($args{destroy}   ? 1                  : 0);
+  $self->{'destroy'}   = ($args{'destroy'} ? 1                  : 0);
   $self->{flags}       = $args{flags} || 0;
   $self->{mode}        = $args{mode}  || 0666 unless $args{flags};
   $self->{size}        = $args{size}  || 0;
@@ -153,13 +153,13 @@ sub num_segments {
 sub destroy {
   my $self = shift;
 
-  return(@_ ? $self->{destroy} = shift : $self->{destroy});
+  return(@_ ? $self->{'destroy'} = shift : $self->{'destroy'});
 }
 
 sub DESTROY {
   my $self = shift;
 
-  destroy_share( $self->{share}, $self->{destroy} );
+  destroy_share( $self->{share}, $self->{'destroy'} ) if $self->{share};
 }
 
 sub AUTOLOAD {

@@ -1,5 +1,9 @@
 Revision history for Perl extension IPC::ShareLite.
 
+0.06 Tue Jan 18 04:33:57 PST 2000
+        - Eliminated some warnings thanks to Jim Mosier <jim.mosier@usa.net>
+        - Fix DESTROY bug thanks to Sam Tregar <sam@tregar.com>
+
 0.05 Thu Dec 10 08:00:22 PST 1998
         - adding casting to shmat() calls 
         - was checking shmat() return value for NULL instead of -1
