@@ -1,0 +1,11 @@
+Changes
+MANIFEST
+README
+Makefile.PL
+ShareLite.pm
+ShareLite.xs
+sharelite.h
+sharelite.c
+typemap
+test.pl
+TODO
