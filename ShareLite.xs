@@ -13,6 +13,34 @@ extern "C" {
 #include <sys/ipc.h> 
 #include "sharelite.h"
 
+/*
+ * Some perl version compatibility stuff.
+ * Taken from HTML::Parser
+ */
+#include "patchlevel.h"
+#if PATCHLEVEL <= 4 /* perl5.004_XX */
+
+#ifndef PL_sv_undef
+   #define PL_sv_undef sv_undef
+   #define PL_sv_yes   sv_yes
+#endif
+
+#ifndef PL_hexdigit
+   #define PL_hexdigit hexdigit
+#endif
+                                                              
+#if (PATCHLEVEL == 4 && SUBVERSION <= 4)
+/* The newSVpvn function was introduced in perl5.004_05 */
+static SV *
+newSVpvn(char *s, STRLEN len)
+{
+    register SV *sv = newSV(0);
+    sv_setpvn(sv,s,len);
+    return sv;
+}
+#endif /* not perl5.004_05 */
+#endif /* perl5.004_XX */            
+
 static int
 not_here(s)
 char *s;

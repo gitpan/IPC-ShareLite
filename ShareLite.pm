@@ -23,7 +23,7 @@ require AutoLoader;
                );
 Exporter::export_ok_tags('all', 'lock', 'flock');                
 	
-$VERSION = '0.07';
+$VERSION = '0.08';
 
 sub new {
   my $class = shift;
@@ -447,6 +447,8 @@ modify it under the same terms as Perl itself.
 
 Special thanks to Benjamin Sugars for developing the IPC::Shareable
 module.
+
+See the Changes file for other contributors.
 
 =head1 SEE ALSO
 

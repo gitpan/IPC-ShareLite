@@ -1,5 +1,9 @@
 Revision history for Perl extension IPC::ShareLite.
 
+0.08 Sat Jul 15 03:00:16 PDT 2000
+        - added define for PL_sv_undef for older perls
+          thanks to Christian Gilmore <Christian_Gilmore@tivoli.com>
+
 0.07 Fri Apr 14 02:56:47 PDT 2000
         - changed sv_undef to PL_sv_undef; should now compile
           under 5.006.  Thanks to Frey Kuo <frey@engineer.com> and
