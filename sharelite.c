@@ -158,8 +158,7 @@ Node *_add_segment(Share *share) {
   /* Does another shared memory segment already exist? */
   if (share->tail->shmaddr->next_shmid >= 0) { 
     node->shmid   = share->tail->shmaddr->next_shmid;
-    node->shmaddr = shmat(node->shmid, 0, 0);
-    if (node->shmaddr == NULL) 
+    if ((node->shmaddr = (Header *) shmat(node->shmid, (char *) 0, 0)) == (Header *) -1)
       return NULL;
     share->tail->next = node;
     share->tail       = node;
@@ -183,7 +182,7 @@ Node *_add_segment(Share *share) {
   share->tail->shmaddr->next_shmid = node->shmid; 
   share->tail->next = node;
   share->tail = node;
-  if ((node->shmaddr = shmat(node->shmid, 0, 0)) == NULL) 
+  if ((node->shmaddr = (Header *) shmat(node->shmid, (char *) 0, 0)) == (Header *) -1) 
     return NULL;
   node->shmaddr->next_shmid = -1;
   node->shmaddr->length     = 0;
@@ -208,7 +207,7 @@ int _remove_segments(int shmid) {
   Header *shmaddr;
 
   while(shmid >= 0) {
-    if ((shmaddr = shmat(shmid, 0, 0)) == NULL) return -1;
+    if ((shmaddr = (Header *) shmat(shmid, (char *) 0, 0)) == (Header *) -1) return -1;
     next_shmid = shmaddr->next_shmid;
     if (shmdt((char *) shmaddr) < 0) return -1;   
     if (shmctl(shmid, IPC_RMID, (struct shmid_ds *) 0) < 0) return -1;
@@ -382,11 +381,9 @@ again:
 
   if ((node = (Node *) malloc(sizeof(Node))) == NULL) 
     return NULL;
-  node->shmid = shmget(key, segment_size, flags);
-  if (node->shmid < 0) 
+  if ((node->shmid = shmget(key, segment_size, flags)) < 0)
     return NULL;
-  node->shmaddr = shmat(node->shmid, 0, 0);
-  if (node->shmaddr == NULL) 
+  if ((node->shmaddr = (Header *) shmat(node->shmid, (char *) 0, 0)) == (Header *) -1)
     return NULL;
   node->next = NULL;
 
@@ -476,9 +473,11 @@ int _num_segments(Share* share) {
   shmid = share->head->shmid;
   while(shmid >= 0) {
     count++;
-    if ((shmaddr = shmat(shmid, 0, 0)) == NULL) return -1;
+    if ((shmaddr = (Header *) shmat(shmid, (char *) 0, 0)) == (Header *) -1) 
+      return -1;
     shmid = shmaddr->next_shmid;
-    if (shmdt((char *) shmaddr) < 0) return -1;  
+    if (shmdt((char *) shmaddr) < 0) 
+      return -1;  
   } 
   
   return count; 

@@ -23,7 +23,7 @@ require AutoLoader;
                );
 Exporter::export_ok_tags('all', 'lock', 'flock');                
 	
-$VERSION = '0.04';
+$VERSION = '0.05';
 
 sub new {
   my $class = shift;
@@ -358,8 +358,8 @@ shared locks, it will be blocked until they have all finished.
 
 Either of the locks may be specified as non-blocking:
 
-	$share->shlock( LOCK_EX|LOCK_NB );
-        $share->shlock( LOCK_SH|LOCK_NB );
+	$share->lock( LOCK_EX|LOCK_NB );
+        $share->lock( LOCK_SH|LOCK_NB );
   
 A non-blocking lock request will return 0 if it would have had to
 wait to obtain the lock.    

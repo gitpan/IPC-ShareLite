@@ -1,5 +1,10 @@
 Revision history for Perl extension IPC::ShareLite.
 
+0.05 Thu Dec 10 08:00:22 PST 1998
+        - adding casting to shmat() calls 
+        - was checking shmat() return value for NULL instead of -1
+	- removed -O3 from Makefile.PL
+
 0.04 Sun Nov 29 17:38:48 PST 1998
 	- now using metaconfig to determine whether semun definition
 	  is available -- thanks to Paul J. Schinder <schinder@pobox.com>.

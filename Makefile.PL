@@ -11,7 +11,6 @@ WriteMakefile(
     'DEFINE'	=> '',     # e.g., '-DHAVE_SOMETHING' 
     'INC'	=> '',     # e.g., '-I/usr/include/other' 
     'OBJECT'    => 'sharelite.o ShareLite.o',
-    'OPTIMIZE'  => '-O3',
     'dist'      => {
         COMPRESS => 'gzip', SUFFIX => 'gz',
     },          
