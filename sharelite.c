@@ -5,20 +5,20 @@
 #include <sys/shm.h>
 #include <sys/sem.h>
 #include <errno.h>
+#include "config.h"
 #include "sharelite.h"
 
+#ifndef errno 
 extern int errno;
+#endif
 
-/* On some platforms, semun is already defined */
-/* XXX what other platforms define it?         */
-/*     can we leverage perl's config?          */
-#if !defined(__linux__) && !defined(__FreeBSD__)
+#ifndef HAS_UNION_SEMUN
 union semun {
   int             val;
   struct semid_ds *buf;
   unsigned short  *array;
-};            
-#endif
+};
+#endif /* HAS_UNION_SEMUN */
 
 /* --- DEFINE MACROS FOR SEMAPHORE OPERATIONS --- */
 

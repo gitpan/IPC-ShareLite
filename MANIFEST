@@ -1,6 +1,8 @@
 Changes
 MANIFEST
 README
+Configure
+config_h.SH
 Makefile.PL
 ShareLite.pm
 ShareLite.xs

@@ -23,7 +23,7 @@ require AutoLoader;
                );
 Exporter::export_ok_tags('all', 'lock', 'flock');                
 	
-$VERSION = '0.03';
+$VERSION = '0.04';
 
 sub new {
   my $class = shift;
@@ -319,6 +319,7 @@ employ the Storable module yourself.  For example:
         ...
 	$hash = { red => 1, white => 1, blue => 1 };
         $share->store( freeze( $hash ) );
+        ...
         $hash = thaw( $share->fetch );
 
 The method raises an exception on error.
@@ -392,35 +393,29 @@ The method returns true on success and undef on error.
 
 For a rough idea of the performance you can expect, here are some
 benchmarks.  The tests were performed using the Benchmark module
-on a Cyrix PR166+ running RedHat Linux 5.1 and the 2.0.32 kernel.
-The default shared memory segment size was used.  Each test was
-run 5000 times.
+on a Cyrix PR166+ running RedHat Linux 5.2 with the 2.0.36 kernel,
+perl 5.005_02 using perl's malloc, and the default shared memory
+segment size.  Each test was run 5000 times.
 
  	DATA SIZE (bytes)	TIME (seconds)	Op/Sec
 
- store	4096			1		5000	
- fetch  4096			1		5000	
-
- store	8192			2		2500	
- fetch	8192			1		5000	
-
- store	16384			2		2500	
- fetch  16384			1		5000	
+ store	16384			2		2500
+ fetch	16384			2		2500
 
  store	32768			3		1666	
  fetch	32768			3		1666	
 
- store	65536			5		1000	
+ store	65536			6		833
  fetch	65536			5		1000	
 
- store	131072			10		500	
- fetch	131072			18		277	
+ store	131072			12		416	
+ fetch	131072			12		416	
 
- store	262144			24		208	
- fetch  262144			39		128	
+ store	262144			28		178	
+ fetch  262144			27		185	
 
- store	524288			61		81	
- fetch  524288			81		61	
+ store	524288			63		79	
+ fetch  524288			61		81	
 
 Most of the time appears to be due to memory copying.  
 Suggestions for speed improvements are welcome.

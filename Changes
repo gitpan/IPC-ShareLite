@@ -1,5 +1,9 @@
 Revision history for Perl extension IPC::ShareLite.
 
+0.04 Sun Nov 29 17:38:48 PST 1998
+	- now using metaconfig to determine whether semun definition
+	  is available -- thanks to Paul J. Schinder <schinder@pobox.com>.
+
 0.03 Thu Nov 19 12:36:06 PST 1998
 	- changed shlock() and shunlock() to lock() and unlock().
 	  old names were confusing.  Old names remain but are
