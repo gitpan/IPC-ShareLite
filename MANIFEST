@@ -1,14 +1,15 @@
 Changes
-MANIFEST
-MANIFEST.SKIP
-README
-Configure
-config_h.SH
+lib/IPC/ShareLite.pm
 Makefile.PL
-ShareLite.pm
+MANIFEST
+README
 ShareLite.xs
-sharelite.h
-sharelite.c
+sharestuff.c
+sharestuff.h
+t/00-load.t
+t/pod-coverage.t
+t/pod.t
+t/sharelite.t
 typemap
-test.pl
-TODO
+META.yml                                 Module meta-data (added by MakeMaker)
+SIGNATURE                                Public-key signature (added by MakeMaker)
