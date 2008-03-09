@@ -1,14 +1,18 @@
 --- #YAML:1.0
 name:                IPC-ShareLite
-version:             0.12
+version:             0.13
 abstract:            Lightweight interface to shared memory 
 license:             perl
 author:              
     - Maurice Aubrey <maurice@cpan.org>
-generated_by:        ExtUtils::MakeMaker version 6.42
+generated_by:        ExtUtils::MakeMaker version 6.44
 distribution_type:   module
 requires:     
     Test::More:                    0
 meta-spec:
     url:     http://module-build.sourceforge.net/META-spec-v1.3.html
     version: 1.3
+no_index:
+    package:
+        - Devel::CheckLib
+        - IO::CaptureOutput
