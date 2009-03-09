@@ -11,6 +11,7 @@ sharestuff.h
 t/00-load.t
 t/pod.t
 t/sharelite.t
+t/unicode-key.t
 typemap
 META.yml                                 Module meta-data (added by MakeMaker)
 SIGNATURE                                Public-key signature (added by MakeMaker)

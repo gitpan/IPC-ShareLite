@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               IPC-ShareLite
-version:            0.15
+version:            0.16
 abstract:           Lightweight interface to shared memory 
 author:
     - Maurice Aubrey <maurice@cpan.org>
