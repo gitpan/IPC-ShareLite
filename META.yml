@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               IPC-ShareLite
-version:            0.14
+version:            0.15
 abstract:           Lightweight interface to shared memory 
 author:
     - Maurice Aubrey <maurice@cpan.org>
@@ -9,6 +9,7 @@ distribution_type:  module
 configure_requires:
     ExtUtils::MakeMaker:  0
 requires:
+    File::Spec:  0
     Test::More:  0
 no_index:
     directory:
