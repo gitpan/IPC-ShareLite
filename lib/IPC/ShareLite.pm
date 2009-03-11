@@ -10,7 +10,7 @@ IPC::ShareLite - Lightweight interface to shared memory
 
 =head1 VERSION
 
-This document describes IPC::ShareLite version 0.16
+This document describes IPC::ShareLite version 0.17
 
 =cut
 
@@ -49,7 +49,7 @@ require AutoLoader;
 
 Exporter::export_ok_tags( 'all', 'lock', 'flock' );
 
-$VERSION = '0.16';
+$VERSION = '0.17';
 
 =head1 SYNOPSIS
 
@@ -183,7 +183,7 @@ sub new {
 sub _8bit_clean {
   my ( $self, $str ) = @_;
   croak "$str is not 8-bit clean"
-   if grep { $_ > 255 } unpack 'C*', $str;
+   if grep { $_ > 255 } map ord, split //, $str;
 }
 
 sub _initialize {
